@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' https://static.balsamiq.com/prototype/v1/; style-src 'unsafe-inline' https://static.balsamiq.com/prototype/v1/; font-src https://static.balsamiq.com/prototype/v1/; img-src data: https:; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none';"/>
+    <title>Reels Content Personalization App</title>
+
+    <!-- Fonts -->
+    <link href="https://static.balsamiq.com/prototype/v1/css/noto-fonts.css" rel="stylesheet"/>
+    <link href="https://static.balsamiq.com/prototype/v1/css/material-symbols-outlined.css" rel="stylesheet"/>
+
+    <!-- Tailwind CSS -->
+    <script src="https://static.balsamiq.com/prototype/v1/js/tailwindcss-3.4.17.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#333333",
+                        "secondary": "#6aa84f",
+                        "background": "#ffffff",
+                        "surface": "#ffffff",
+                        "border": "#333333",
+                        "text-main": "#333333",
+                        "text-muted": "#666666",
+                    },
+                    borderRadius: {
+                        "theme": "0",
+                        "theme-sm": "calc(0 * 0.5)",
+                        "theme-lg": "calc(0 * 1.5)",
+                    },
+                    boxShadow: {
+                        "theme": "none",
+                    },
+                    fontFamily: {
+                        "display": ["Noto Serif", "serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                        "sans": ["Noto Sans", "sans-serif"],
+                    },
+                },
+            },
+        }
+    </script>
+
+    <!-- Alpine.js Plugins -->
+    <script defer src="https://static.balsamiq.com/prototype/v1/js/alpinejs-collapse-3.14.9.min.js"></script>
+    <!-- Alpine.js -->
+    <script defer src="https://static.balsamiq.com/prototype/v1/js/alpinejs-3.14.9.min.js"></script>
+
+    <style>
+        /* Prevent flash of unstyled content */
+        [x-cloak] { display: none !important; }
+        .font-display { font-family: 'Noto Serif', serif; }
+        .font-body { font-family: 'Noto Sans', sans-serif; }
+    </style>
+
+</head>
+<body class="bg-background text-text-main font-body antialiased min-h-screen"
+      x-data="{ page: 'Recommendation Preferences', formData: {} }">
+
+<!-- Page: Recommendation Preferences -->
+<div x-show="page === 'Recommendation Preferences'" x-cloak class="flex flex-col min-h-screen bg-background">
+    <!-- Header -->
+    <div class="flex items-center px-4 py-4 border-b border-border bg-surface sticky top-0 z-10">
+        <button @click="page = 'New board 2'" data-control-id="1" class="p-2 -ml-2 hover:bg-gray-100 rounded-full flex items-center justify-center">
+            <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <h1 data-control-id="2" class="ml-2 text-lg font-medium text-text-main">Recommendation Preferences</h1>
+    </div>
+
+    <div class="flex-1 overflow-y-auto px-4 py-6 space-y-8">
+        <!-- Content Variety Section -->
+        <section class="space-y-4">
+            <div class="space-y-1">
+                <h2 data-control-id="3" class="text-lg font-semibold text-text-main leading-tight">Content variety</h2>
+                <p class="text-sm text-text-muted">Choose how broad your Reels feed feels</p>
+            </div>
+
+            <div x-data="{ variety: 27 }" class="space-y-6 pt-2">
+                <div class="relative h-12 flex items-center">
+                    <input data-control-id="17" type="range" min="0" max="100" x-model="variety" class="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary">
+                    
+                    <!-- Markers -->
+                    <div class="absolute top-8 left-0 right-0 flex justify-between text-xs text-text-muted px-1">
+                        <span data-control-id="26" :class="variety < 33 ? 'text-primary font-bold' : ''">Focused</span>
+                        <span data-control-id="25" :class="variety >= 33 && variety <= 66 ? 'text-primary font-bold' : ''">Balanced</span>
+                        <span data-control-id="24" :class="variety > 66 ? 'text-primary font-bold' : ''">More variety</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Interactions Section -->
+        <section class="flex items-center justify-between p-4 bg-surface rounded-theme border border-border">
+            <div data-control-id="27" class="space-y-1">
+                <h3 class="font-medium text-text-main">Recent Interactions</h3>
+                <p class="text-xs text-text-muted">Use recent likes/watch time less strongly</p>
+            </div>
+            <button data-control-id="28" x-data="{ on: false }" @click="on = !on" :class="on ? 'bg-primary' : 'bg-gray-300'" class="relative w-11 h-6 rounded-full transition-colors focus:outline-none">
+                <span :class="on ? 'translate-x-5' : 'translate-x-0.5'" class="inline-block w-5 h-5 bg-white rounded-full shadow transform transition-transform mt-0.5"></span>
+            </button>
+        </section>
+
+        <!-- Topic Preferences Section -->
+        <section data-control-id="40" class="space-y-4">
+            <h3 class="text-sm font-semibold text-text-muted uppercase tracking-wider">Topic Weights</h3>
+            
+            <div class="space-y-3">
+                <!-- Fitness -->
+                <div class="flex items-center justify-between">
+                    <span data-control-id="32" class="text-text-main font-medium">Fitness</span>
+                    <select data-control-id="33" x-model="formData['33']" class="border border-border rounded-theme px-3 py-2 text-sm bg-surface">
+                        <option value="Neutral">Neutral</option>
+                        <option value="Weak">Weak</option>
+                        <option value="Strong">Strong</option>
+                    </select>
+                </div>
+
+                <!-- Travel -->
+                <div class="flex items-center justify-between">
+                    <span data-control-id="31" class="text-text-main font-medium">Travel</span>
+                    <select data-control-id="34" x-model="formData['34']" class="border border-border rounded-theme px-3 py-2 text-sm bg-surface">
+                        <option value="Neutral">Neutral</option>
+                        <option value="Weak">Weak</option>
+                        <option value="Strong">Strong</option>
+                    </select>
+                </div>
+
+                <!-- Gaming -->
+                <div class="flex items-center justify-between">
+                    <span data-control-id="29" class="text-text-main font-medium">Gaming</span>
+                    <select data-control-id="35" x-model="formData['35']" class="border border-border rounded-theme px-3 py-2 text-sm bg-surface">
+                        <option value="Neutral">Neutral</option>
+                        <option value="Weak">Weak</option>
+                        <option value="Strong">Strong</option>
+                    </select>
+                </div>
+
+                <!-- Technology -->
+                <div class="flex items-center justify-between">
+                    <span data-control-id="51" class="text-text-main font-medium">Technology</span>
+                    <select data-control-id="52" x-model="formData['52']" class="border border-border rounded-theme px-3 py-2 text-sm bg-surface">
+                        <option value="Neutral">Neutral</option>
+                        <option value="Weak">Weak</option>
+                        <option value="Strong">Strong</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex justify-center py-2">
+                <span data-control-id="55" class="material-symbols-outlined text-text-muted animate-bounce">expand_content</span>
+            </div>
+        </section>
+
+        <!-- Save Button -->
+        <div class="pt-4 pb-8">
+            <button data-control-id="36" @click="page = 'New board 1'" class="w-full bg-primary text-white py-4 rounded-theme shadow-theme font-semibold text-lg hover:opacity-90 transition-opacity">
+                Save Preferences
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Page: New board 2 (Recommendation Controls Overlay) -->
+<div x-show="page === 'New board 2'" x-cloak class="flex flex-col min-h-screen bg-black">
+    <!-- Video Background Placeholder -->
+    <div class="relative flex-1 flex items-center justify-center bg-gray-900">
+        <div data-control-id="2" class="text-white/20 text-6xl font-bold">VIDEO</div>
+        <div data-control-id="3" class="absolute top-6 left-6 text-white text-xl font-bold">Reels</div>
+    </div>
+
+    <!-- Bottom Sheet / Modal -->
+    <div class="bg-surface rounded-t-theme-lg p-6 space-y-4 animate-slide-up">
+        <div class="flex justify-between items-center mb-2">
+            <h2 class="text-lg font-bold text-text-main">Recommendation Controls</h2>
+            <button data-control-id="14" @click="page = 'New board 1'" class="text-text-muted">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <div class="divide-y divide-border">
+            <button class="w-full flex items-center gap-4 py-4 text-left hover:bg-gray-50 transition-colors">
+                <span data-control-id="8" class="material-symbols-outlined text-text-muted">help</span>
+                <span class="text-text-main font-medium">Why am I seeing this</span>
+            </button>
+            
+            <button class="w-full flex items-center gap-4 py-4 text-left hover:bg-gray-50 transition-colors">
+                <span data-control-id="10" class="material-symbols-outlined text-text-muted">remove</span>
+                <span class="text-text-main font-medium">Show fewer videos like this</span>
+            </button>
+
+            <button class="w-full flex items-center gap-4 py-4 text-left hover:bg-gray-50 transition-colors">
+                <span data-control-id="11" class="material-symbols-outlined text-text-muted">add</span>
+                <span class="text-text-main font-medium">Show me more variety</span>
+            </button>
+
+            <button class="w-full flex items-center gap-4 py-4 text-left hover:bg-gray-50 transition-colors">
+                <span data-control-id="12" class="material-symbols-outlined text-text-muted">block</span>
+                <span class="text-text-main font-medium">Don't use this reel to update my interests</span>
+            </button>
+
+            <button @click="page = 'Recommendation Preferences'" class="w-full flex items-center justify-between py-4 text-left hover:bg-gray-50 transition-colors group">
+                <span class="text-primary font-semibold">Recommendation Preferences</span>
+                <span data-control-id="13" class="material-symbols-outlined text-primary group-hover:translate-x-1 transition-transform">chevron_right</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Page: New board 1 (Main Reels Feed) -->
+<div x-show="page === 'New board 1'" x-cloak class="flex flex-col h-screen bg-black relative overflow-hidden">
+    <!-- Video Content -->
+    <div class="absolute inset-0 flex items-center justify-center">
+        <div data-control-id="15" class="text-white/10 text-7xl font-bold select-none">VIDEO</div>
+    </div>
+
+    <!-- Top Header -->
+    <div class="absolute top-0 left-0 right-0 p-6 flex justify-between items-center z-10">
+        <h1 data-control-id="16" class="text-white text-xl font-bold">Reels</h1>
+        <span class="material-symbols-outlined text-white">photo_camera</span>
+    </div>
+
+    <!-- Right Side Actions -->
+    <div class="absolute right-4 bottom-32 flex flex-col gap-6 items-center z-10">
+        <button data-control-id="4" class="flex flex-col items-center gap-1">
+            <span class="material-symbols-outlined text-white text-3xl">favorite</span>
+            <span class="text-white text-xs">124k</span>
+        </button>
+        <button data-control-id="5" class="flex flex-col items-center gap-1">
+            <span class="material-symbols-outlined text-white text-3xl">chat</span>
+            <span class="text-white text-xs">1.2k</span>
+        </button>
+        <button data-control-id="6" class="flex flex-col items-center gap-1">
+            <span class="material-symbols-outlined text-white text-3xl">send</span>
+            <span class="text-white text-xs">Share</span>
+        </button>
+        <button data-control-id="7" class="flex flex-col items-center gap-1">
+            <span class="material-symbols-outlined text-white text-3xl">star</span>
+            <span class="text-white text-xs">Save</span>
+        </button>
+        <button data-control-id="8" @click="page = 'New board 2'" class="flex flex-col items-center">
+            <span class="material-symbols-outlined text-white text-3xl">more_vert</span>
+        </button>
+    </div>
+
+    <!-- Bottom Info -->
+    <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
+        <div data-control-id="19" class="space-y-2 mb-4">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gray-400"></div>
+                <span class="text-white font-bold">@Creator</span>
+                <button class="border border-white text-white text-xs px-3 py-1 rounded-theme">Follow</button>
+            </div>
+            <p class="text-white text-sm line-clamp-2">Short Caption about Reel #trending #content</p>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div data-control-id="21" class="w-full h-0.5 bg-white/30 rounded-full overflow-hidden">
+            <div class="h-full bg-white w-1/3"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes slide-up {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+    }
+    .animate-slide-up {
+        animation: slide-up 0.3s ease-out forwards;
+    }
+</style>
+
+</body>
+</html>
